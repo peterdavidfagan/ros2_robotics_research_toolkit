@@ -6,7 +6,7 @@ services:
     networks:
       - ros_application
     build: 
-      context: ../../
+      context: ../../../
       dockerfile: .docker/control/Dockerfile.control
     devices:
       - "/dev:/dev"
@@ -51,7 +51,7 @@ services:
   moveit:
     image: ghcr.io/peterdavidfagan/lite6_motion_planning:rolling
     build: 
-      context: ../../
+      context: ../../../
       dockerfile: .docker/motion_planning/Dockerfile.motion_planning
     environment:
       - DISPLAY=${DISPLAY}
@@ -73,7 +73,7 @@ services:
   notebook_server:
     image: ghcr.io/peterdavidfagan/lite6_motion_planning:rolling
     build: 
-      context: ../../
+      context: ../../../
       dockerfile: .docker/motion_planning/Dockerfile.motion_planning
     networks:
       - ros_application
