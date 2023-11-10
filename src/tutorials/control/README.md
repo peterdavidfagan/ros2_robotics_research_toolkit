@@ -47,4 +47,4 @@ At the time of writing this `README.md`, there appears to be latency issues when
 
 This is not added yet but I plan to include a video here in future. For now there is a qualitative example of running servo using the code in this repository: 
 
-[<img src="https://github.com/peterdavidfagan/lite6_ws/blob/rolling/assets/workspace.jpg?raw=true" width="400">](https://www.youtube.com/shorts/DTBcyli4Wsw)
+https://github.com/ros-planning/moveit2/assets/42982057/7a15839e-061c-4e11-baa0-333faaa8398b
