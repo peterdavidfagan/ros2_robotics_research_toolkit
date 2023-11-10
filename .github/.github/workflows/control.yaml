@@ -12,7 +12,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  ORG_NAME: ipab-rad
+  ORG_NAME: peterdavidfagan
   IMAGE_NAME: lite6_control
 
 jobs:
