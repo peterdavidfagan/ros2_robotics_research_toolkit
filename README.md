@@ -2,8 +2,11 @@
 
 # IMPORTANT: This repository is a work in progress, once it is in a stable state this message will be removed.
 
-# Supported Robots 🤖
+# ROS 2 Robot Learning Workspace 🚀 
+This repository serves as a template for setting up a ROS 2 workspace for performing robot learning research. If you use ROS 2 and are interested in contributing to this codebase please reach out at peterdavidfagan@gmail.com. If you use these tools in your research please star this repository. 
 
+
+# Supported Robots 🤖
 
 | Robot | Image | Branch |
 |----------|----------|----------|
@@ -11,10 +14,11 @@
 | Franka Emika Panda | <img src="./assets/franka-emika.gif" width="200" /> | `franka_emika_panda` |
 
 
-# ROS 2 Robot Learning Workspace 🚀 
-This repository serves as a template for setting up a ROS 2 workspace for performing robot learning research. In order to run the code in this repository with a given robot, you simply need to change description packages that integrate the robot with `MoveIt` and `ROS 2 Control`, a guide for doing this will be added in future. 
 
-Most of the application code within this repository is intended to be run using Docker, with this being said, it is possible to build the ROS workspace on the host of a machine running Ubuntu 22.04. 
+# Lite6 Overview
+The application code within this repository is intended to be run using Docker, with this being said, it is possible to build the ROS workspace on the host of a machine running Ubuntu 22.04. 
+
+<img src="./assets/workspace.jpg" width="400" />
 
 Tutorials for the following applications are included:
 
@@ -29,31 +33,29 @@ The following tutorials are considered be added in future:
 * Grasp Pose Estimation
 * Data Collection + Converting ROS 2 MCAP data to RLDS 
 
-If you use ROS 2 and are interested in contributing to this codebase please reach out at peterdavidfagan@gmail.com. If you use these tools in your research please star this repository. 
 
-<img src="./assets/workspace.jpg" width="400" />
 
 # Hardware Setup 🔧
+<img src="./assets/ufactory.png" width="600" />
 
-## Components
+### Components
 * UFactory Lite6
 * Intel NUC (Intel i5 as minimum CPU spec)
 * Client machine (Nvidia GPU that supports CUDA 12+)
 * Ethernet switch
 * Zed camera
 
-<img src="./assets/ufactory.png" width="400" />
 
 # Software Setup
 
-## System Software Prerequisites
+### Software Prerequisites
 This workspaces requires the following software to be installed:
 
 * An installation of Docker ([instructions](https://docs.docker.com/engine/install/ubuntu/))
 * An installation of Nvidia Container Toolkit (if you intend to use cameras + policy deployment) ([instructions](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html))
 * An installation of ROS rolling ([instructions](https://docs.ros.org/en/rolling/Installation.html))
 
-# NUC Machine Setup
+### NUC Machine Setup
 * Install Docker
 * Perform Realtime Patch of Kernel
 * CPU frequency scaling
@@ -67,9 +69,7 @@ Run the following script to accomplish the above steps and setup your NUC:
 ./nuc_setup.sh
 ```
 
-
-
-# Client Machine Setup
+### Client Machine Setup
 ** Incomplete
 
 * Set static IP
@@ -80,7 +80,7 @@ Run the following script to accomplish the above steps and setup your NUC:
 client_machine_setup.sh
 ```
 
-## Running ROS Applications on Host
+### Running ROS Applications on Host
 In order to install and build all workspace dependencies on your local machine all you need to run is:
 ```bash
 ./local_setup.sh
@@ -88,7 +88,7 @@ In order to install and build all workspace dependencies on your local machine a
 
 This is only necessary if you wish to run application code directly on the host machine, most applications within this repository are dockerised and hence don't require you to build the ROS 2 workspace on the host machine.
 
-## Running ROS Applications with Docker
+### Running ROS Applications with Docker
 The following guides are recommended as background reading for this section:
 
 * [Docker Guide](https://docs.docker.com/get-started/) 
