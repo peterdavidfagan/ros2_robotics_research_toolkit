@@ -112,7 +112,7 @@ touch $DOCKER_XAUTH
 xauth nlist $DISPLAY | sed -e 's/^..../ffff/' | xauth -f $DOCKER_XAUTH nmerge -
 ```
 
-### Now Go Do Some Robotics Research 
+### Time To Do Some Robotics Research 🚀
 
 ![](https://media.giphy.com/media/tczJoRU7XwBS8/giphy.gif)
 ![](https://media.giphy.com/media/Ps89uHS7n72j6/giphy.gif)
