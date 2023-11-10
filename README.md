@@ -8,7 +8,7 @@
 | Robot | Image | Branch |
 |----------|----------|----------|
 | UFactory Lite6 | <img src="./assets/Lite-6.gif" width="200" /> | `ufactory_lite6` |
-| Franka Emika Panda | <img src="./assets/franka_emika_panda.jpg" width="200" /> | `franka_emika_panda` |
+| Franka Emika Panda | <img src="./assets/franka-emika.gif" width="200" /> | `franka_emika_panda` |
 
 
 # ROS 2 Robot Learning Workspace 🚀 
