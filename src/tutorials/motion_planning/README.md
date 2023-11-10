@@ -40,10 +40,13 @@ To undeploy the stack of services run
 docker stack rm <name of the deployed stack>
 ```
 
-## Notebook Tutorial
+## Executing Scripts/Notebooks
+At the time of writing this `README.md`, there appears to be latency issues when receiving joint information within an interactive session in a docker container. This needs to be investigated further, as a result in order to execute the python tutorials and/or start a notebook session that performs motion planning, I recommend doing so on your host machine directly (outside of Docker container). To accomplish this you need to install ros rolling and build the workspace locally through running the `build.sh` script located in the root of the repository. Once you have done this, running the python scripts and starting notebooks is the same as one would do regularly on the host machine. 
+
+## Notebook Tutorial Walkthrough
 [Official Tutorial](https://moveit.picknik.ai/main/doc/examples/jupyter_notebook_prototyping/jupyter_notebook_prototyping_tutorial.html)
 
-## Motion Planning Script Tutorial
+## Motion Planning Script Tutorial Walkthrough
 [Official Tutorial](https://moveit.picknik.ai/main/doc/examples/motion_planning_python_api/motion_planning_python_api_tutorial.html)
 
 ## Video Walkthrough
