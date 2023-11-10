@@ -123,4 +123,7 @@ This will generate a file containing the extrinsic calibration parameters for yo
 
 ## Video Walkthrough
 
-This is not added yet but I plan to include a video here in future.
+This is not added yet but I plan to include a video here in future.For now there is a qualitative example of running servo using the code in this repository: 
+
+[<img src="https://github.com/peterdavidfagan/lite6_ws/blob/rolling/assets/workspace.jpg?raw=true" width="400">](https://youtu.be/6vJVus9Euzs)
+
