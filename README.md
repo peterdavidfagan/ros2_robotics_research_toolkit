@@ -23,10 +23,10 @@ The application code within this repository is intended to be run using Docker, 
 
 Tutorials for the following applications are included:
 
-* Camera calibration (intrinsic + extrinsic parameters)
-* Control (interfacing with ROS 2 Controllers)
-* Motion Planning (using MoveIt 2 for motion planning)
-* Policy Deployment (deploying neural network policies on the robot)
+* [Camera Calibration](https://github.com/peterdavidfagan/ros2_robotics_research_toolkit/tree/ufactory_lite6/src/tutorials/camera_calibration) (intrinsic + extrinsic parameters)
+* [Control](https://github.com/peterdavidfagan/ros2_robotics_research_toolkit/tree/ufactory_lite6/src/tutorials/control) (interfacing with ROS 2 Controllers)
+* [Motion Planning](https://github.com/peterdavidfagan/ros2_robotics_research_toolkit/tree/ufactory_lite6/src/tutorials/motion_planning) (using MoveIt 2 for motion planning)
+* [Policy Deployment](https://github.com/peterdavidfagan/ros2_robotics_research_toolkit/tree/ufactory_lite6/src/tutorials/policy_deployment) (deploying neural network policies on the robot)
 
 The following tutorials are considered be added in future:
 
@@ -119,48 +119,5 @@ This is in general bad practice as it disables security settings for local appli
 export DOCKER_XAUTH=/tmp/.docker.xauth
 touch $DOCKER_XAUTH
 xauth nlist $DISPLAY | sed -e 's/^..../ffff/' | xauth -f $DOCKER_XAUTH nmerge -
-```
-
-## Running Tutorials Examples
-
-### Camera Calibration Tutorial
-
-### Control Tutorial
-
-Note: in its current state, for visualization code to work one needs to run the foxglove bridge on the host machine with 
-
-```
-ros2 run foxglove_bridge foxglove_bridge
-```
-
-In future this bridge will be moved to a docker container and launched as a service with the application.
-
-Start the application code (control server, servo node, foxglove visualization):
-```bash
-cd .docker/control
-docker compose -f docker-compose-servo-application.yaml  up
-```
-
-In order to view the default dashboard configuration open [http://localhost:8080](http://localhost:8080/).
-
-<img src="./assets/control_debug.png" width="400" />
-
-Run example trajectory code: 
-```bash
-source /opt/ros/rolling/setup.bash
-python ./src/tutorials/control/src/servo.py 
-```
-
-Please see [control_tutorial](placeholder.com) for further instructions.
-
-### Motion Planning Tutorial
-```bash
-ros2 launch 
-```
-Please see [motion_planning_tutorial](placeholder.com) for further instructions.
-
-### Policy Deployment Tutorial
-```bash
-ros2 launch 
 ```
 Please see [policy_deployment_tutorial](placeholder.com) for further instructions.
