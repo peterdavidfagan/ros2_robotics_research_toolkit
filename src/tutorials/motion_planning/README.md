@@ -3,7 +3,13 @@ The motion planning tutorials provide base examples for interfacing with the Mov
 
 ## Regular Deployment
 
-If you have not already configured Docker swarm, you can deploy containers on machines through directly running docker compose commands on each machine. Further instructions are given below:
+If you have not already configured Docker swarm, you can deploy containers on machines through directly running docker compose commands on each machine. You may need to pull the containers used in these compose files if you haven't already, this can be accomplished for the control-server container with:
+
+```
+docker pull ghcr.io/peterdavidfagan/lite6_control:rolling
+```
+
+It is worth noting that the docker compose files when run will look to pull the container if it is not already on your host machine. Further instructions are given below:
 
 ### Start the Control Server on the NUC
 From a terminal session on the NUC, enter the following directory from this repository `.docker/tutorials/motion_planning`. From this directory one can start the control server through running the following command
