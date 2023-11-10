@@ -2,7 +2,7 @@ name: lite6_motion_planning
 
 on:
   push:
-    branches: ['rolling']
+    branches: ['ufactory_lite6']
     paths:
       - .gitmodules
       - src/**
