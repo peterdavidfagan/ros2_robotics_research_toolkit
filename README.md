@@ -52,7 +52,7 @@ This workspaces requires the following software to be installed:
 
 * An installation of Docker ([instructions](https://docs.docker.com/engine/install/ubuntu/))
 * An installation of Nvidia Container Toolkit (if you intend to use cameras + policy deployment) ([instructions](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html))
-* An installation of ROS rolling ([instructions](https://docs.ros.org/en/rolling/Installation.html))
+* An installation of ROS rolling if running outside docker ([instructions](https://docs.ros.org/en/rolling/Installation.html))
 
 ### NUC Machine Setup
 * Install Docker
@@ -69,7 +69,7 @@ Run the following script to accomplish the above steps and setup your NUC:
 ```
 
 ### Client Machine Setup
-** Incomplete
+** Instructions need to be completed
 
 * Set static IP
 * Set XAUTH variables to enable X11 forwarding
@@ -97,13 +97,6 @@ The following guides are recommended as background reading for this section:
 ### Docker Application Deployment
 The `.docker` folder of this repository contains multiple subfolders which docker compose files that can be used to deploy containers across machines within the LAN. 
 
-### Docker Swarm Configuration
-**Incomplete 
-
-1. Initialize swarm on client machine
-2. Make client machine a swarm manager
-3. Add NUC and other devices as Nodes within the swarm
-
 ### Docker GUI Prerequisites
 If you wish to run a container that contains GUI applications (e.g. rviz) you need to first manage X-server authentication. The most basic way to do so is through enabling access to all local applications by running: 
 
@@ -118,4 +111,10 @@ export DOCKER_XAUTH=/tmp/.docker.xauth
 touch $DOCKER_XAUTH
 xauth nlist $DISPLAY | sed -e 's/^..../ffff/' | xauth -f $DOCKER_XAUTH nmerge -
 ```
-Please see [policy_deployment_tutorial](placeholder.com) for further instructions.
+
+### Now Go Do Some Robotics Research 
+
+![](https://media.giphy.com/media/tczJoRU7XwBS8/giphy.gif)
+![](https://media.giphy.com/media/Ps89uHS7n72j6/giphy.gif)
+![](https://media.giphy.com/media/ibvCzdxyEC7UBbemJ3/giphy.gif)
+
