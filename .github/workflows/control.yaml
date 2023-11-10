@@ -2,7 +2,7 @@ name: lite6_control
 
 on:
   push:
-    branches: ['rolling']
+    branches: ['ufactory_lite6']
     paths:
       - .gitmodules
       - src/control
