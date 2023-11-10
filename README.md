@@ -17,14 +17,20 @@ This repository serves as a template for setting up a ROS 2 workspace for perfor
 # Lite6 Overview
 The application code within this repository is intended to be run using Docker, with this being said, it is possible to build the ROS workspace on the host of a machine running Ubuntu 22.04. 
 
-<img src="./assets/workspace.jpg" width="400" />
-
 Tutorials for the following applications are included:
 
 * [Camera Calibration](https://github.com/peterdavidfagan/ros2_robotics_research_toolkit/tree/ufactory_lite6/src/tutorials/camera_calibration) (intrinsic + extrinsic parameters)
+
+https://github.com/peterdavidfagan/ros2_robotics_research_toolkit/assets/42982057/1c77df11-267d-40d8-993e-65751cda902e
+
+
+
 * [Control](https://github.com/peterdavidfagan/ros2_robotics_research_toolkit/tree/ufactory_lite6/src/tutorials/control) (interfacing with ROS 2 Controllers)
 * [Motion Planning](https://github.com/peterdavidfagan/ros2_robotics_research_toolkit/tree/ufactory_lite6/src/tutorials/motion_planning) (using MoveIt 2 for motion planning)
 * [Policy Deployment](https://github.com/peterdavidfagan/ros2_robotics_research_toolkit/tree/ufactory_lite6/src/tutorials/policy_deployment) (deploying neural network policies on the robot)
+
+https://github.com/ros-planning/moveit2/assets/42982057/7a15839e-061c-4e11-baa0-333faaa8398b
+
 
 The following tutorials are considered be added in future:
 
