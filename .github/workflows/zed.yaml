@@ -2,7 +2,7 @@ name: zed2
 
 on:
   push:
-    branches: ['rolling']
+    branches: ['ufactory_lite6']
     paths:
       - .gitmodules
       - src/cameras/**
