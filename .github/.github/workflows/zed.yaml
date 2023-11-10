@@ -1,0 +1,52 @@
+name: zed2
+
+on:
+  push:
+    branches: ['rolling']
+    paths:
+      - .gitmodules
+      - src/cameras/**
+      - .docker/cameras/Dockerfile.zed
+      - .github/workflows/zed.yaml
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  ORG_NAME: ipab-rad
+  IMAGE_NAME: zed2
+
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          token: ${{ secrets.ORG_PAT }}
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: .docker/cameras/Dockerfile.zed
+          push: true
+          no-cache: true
+          tags: ${{ env.REGISTRY }}/${{ env.ORG_NAME }}/${{ env.IMAGE_NAME }}:rolling
