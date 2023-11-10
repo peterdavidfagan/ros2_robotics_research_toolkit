@@ -125,5 +125,5 @@ This will generate a file containing the extrinsic calibration parameters for yo
 
 This is not added yet but I plan to include a video here in future.For now there is a qualitative example of running servo using the code in this repository: 
 
-[<img src="https://github.com/peterdavidfagan/lite6_ws/blob/rolling/assets/workspace.jpg?raw=true" width="400">](https://youtu.be/6vJVus9Euzs)
+https://github.com/peterdavidfagan/ros2_robotics_research_toolkit/assets/42982057/338c0bb7-b29f-47e8-8d6e-c4c781ea112a
 
