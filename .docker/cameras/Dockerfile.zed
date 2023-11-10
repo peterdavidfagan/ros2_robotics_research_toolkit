@@ -1,0 +1,82 @@
+FROM nvidia/cuda:12.1.0-devel-ubuntu22.04
+MAINTAINER Peter David Fagan "peterdavidfagan@gmail.com"
+
+# set default DDS to Cyclone
+ENV ROS_DISTRO=rolling
+ENV RMW_IMPLEMENTATION rmw_cyclonedds_cpp
+ENV NVIDIA_DRIVER_CAPABILITIES \
+    ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}compute,video,utility
+ARG DEBIAN_FRONTEND=noninteractive
+
+
+# set up ROS workspace
+ENV ROS_UNDERLAY /root/zed_ws/install
+WORKDIR $ROS_UNDERLAY/..
+COPY src/cameras/zed* ./src/cameras
+
+# base system installations
+RUN apt-get update && \
+    apt-get install -y neovim software-properties-common build-essential sudo git curl wget python3-pip libspdlog-dev \
+    libeigen3-dev lsb-release ffmpeg libsm6 libxext6 zstd && \
+    apt-get upgrade -y
+
+# install ROS
+RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg && \
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | tee /etc/apt/sources.list.d/ros2.list > /dev/null
+
+RUN apt-get update && apt-get upgrade -y && \ 
+    apt-get install -y ros-${ROS_DISTRO}-desktop && \
+    apt-get install -y python3-rosdep && \
+    apt-get install -y python3-vcstool && \
+    apt-get install -y python3-colcon-common-extensions
+
+RUN pip3 install colcon-mixin && \
+    colcon mixin add default https://raw.githubusercontent.com/colcon/colcon-mixin-repository/master/index.yaml && \
+    colcon mixin update default
+
+RUN rosdep init && \
+    rosdep fix-permissions && \
+    rosdep update
+
+# install the zed sdk
+ARG UBUNTU_RELEASE_YEAR=22
+ARG ZED_SDK_MAJOR=4
+ARG ZED_SDK_MINOR=0
+ARG CUDA_MAJOR=12
+ARG CUDA_MINOR=1
+
+RUN echo "Europe/Paris" > /etc/localtime ; echo "CUDA Version ${CUDA_MAJOR}.${CUDA_MINOR}.0" > /usr/local/cuda/version.txt
+
+# setup the ZED SDK
+RUN apt-get update -y || true ; apt-get install --no-install-recommends lsb-release wget less udev sudo zstd build-essential cmake python3 python3-pip libpng-dev libgomp1 -y && \ 
+    python3 -m pip install numpy opencv-python && \
+    wget -q -O ZED_SDK_Linux_Ubuntu${UBUNTU_RELEASE_YEAR}.run https://download.stereolabs.com/zedsdk/${ZED_SDK_MAJOR}.${ZED_SDK_MINOR}/cu${CUDA_MAJOR}${CUDA_MINOR%.*}/ubuntu${UBUNTU_RELEASE_YEAR} && \
+    chmod +x ZED_SDK_Linux_Ubuntu${UBUNTU_RELEASE_YEAR}.run && \
+    ./ZED_SDK_Linux_Ubuntu${UBUNTU_RELEASE_YEAR}.run -- silent skip_tools skip_cuda && \
+    ln -sf /lib/x86_64-linux-gnu/libusb-1.0.so.0 /usr/lib/x86_64-linux-gnu/libusb-1.0.so && \
+    rm ZED_SDK_Linux_Ubuntu${UBUNTU_RELEASE_YEAR}.run && \
+    rm -rf /var/lib/apt/lists/*
+RUN pip3 install requests
+RUN python3 /usr/local/zed/get_python_api.py && python3 -m pip install --ignore-installed /root/zed_ws/pyzed-4.0-cp310-cp310-linux_x86_64.whl
+
+# install ros dependencies and build workspace
+RUN . /opt/ros/${ROS_DISTRO}/setup.sh && \
+    apt-get update && \
+    apt-get install -y ros-${ROS_DISTRO}-rmw-cyclonedds-cpp \
+    wget && \
+    apt-get update && \
+    rosdep update && \
+    DEBIAN_FRONTEND=noninteractive \
+    rosdep install --from-paths src --ignore-src -r -y --rosdistro ${ROS_DISTRO} && \
+    colcon build --parallel-workers $(nproc) --symlink-install \
+    --event-handlers console_direct+ --base-paths src \
+    --cmake-args ' -DCMAKE_BUILD_TYPE=Release' \
+    ' -DCMAKE_LIBRARY_PATH=/usr/local/cuda-11/lib64' \
+    ' -DCMAKE_CXX_FLAGS="-Wl,--allow-shlib-undefined"' \
+    ' --no-warn-unused-cli' && \ 
+    rm -rf /var/lib/apt/lists/* 
+
+# create entrypoint
+COPY .docker/ros_entrypoint.sh /sbin/ros_entrypoint.sh
+RUN sudo chmod 755 /sbin/ros_entrypoint.sh
+ENTRYPOINT ["/sbin/ros_entrypoint.sh"]

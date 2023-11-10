@@ -1,0 +1,22 @@
+[submodule "src/audio/ros2_whisper"]
+	path = src/audio/ros2_whisper
+	url = git@github.com:peterdavidfagan/ros2_whisper.git
+[submodule "src/cameras/zed-ros2-wrapper"]
+	path = src/cameras/zed-ros2-wrapper
+	url = git@github.com:peterdavidfagan/zed-ros2-wrapper.git
+	branch = rolling
+[submodule "src/cameras/image_pipeline"]
+	path = src/cameras/image_pipeline
+	url = git@github.com:ros-perception/image_pipeline.git
+	branch = rolling
+[submodule "src/control/xarm_ros2"]
+	path = src/control/xarm_ros2
+	url = git@github.com:xArm-Developer/xarm_ros2.git
+	branch = rolling
+[submodule "src/motion_planning/lite6_moveit_resources"]
+	path = src/motion_planning/lite6_moveit_resources
+	url = git@github.com:peterdavidfagan/lite6_moveit_resources.git
+[submodule "src/motion_planning/moveit2"]
+	path = src/motion_planning/moveit2
+	url = git@github.com:peterdavidfagan/moveit2.git
+	branch = pr-policies

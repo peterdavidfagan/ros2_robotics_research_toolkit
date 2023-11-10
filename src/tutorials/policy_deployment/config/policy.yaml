@@ -1,0 +1,53 @@
+policy:
+  num_sensors: {
+      type: int,
+      default_value: 1,
+      description: "Used for indexing through sensors in this config file.",
+    }
+
+  sensor_queue: {
+      type: int,
+      default_value: 5,
+      description: "",
+  }
+
+  sensor_slop: {
+    type: double,
+    default_value: 0.2,
+    description: "",
+  }
+
+  sensor1:
+    type: {
+        type: string,
+        default_value: "sensor_msgs/Image",
+        description: "",
+      }
+    topic: {
+        type: string,
+        default_value: "/zed2i/zed_node/rgb/image_rect_color",
+        description: "",
+      }
+    qos: {
+        type: int,
+        default_value: 10,
+        description: "",
+      }
+  
+  command:
+    type: {
+        type: string,
+        default_value: "geometry_msgs/PoseStamped",
+        description: "",
+      }
+    topic: {
+        type: string,
+        default_value: "/servo_node/pose_target_cmds",
+        description: "",
+      }
+    qos: {
+        type: int,
+        default_value: 10,
+        description: "",
+      }
+

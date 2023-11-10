@@ -1,0 +1,20 @@
+version: "3"
+
+services: 
+  zed2:
+    image: ghcr.io/ipab-rad/zed2:rolling
+    build: 
+      context: ../../
+      dockerfile: .docker/cameras/Dockerfile.zed
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+    devices:
+      - "/dev:/dev"
+    privileged: true
+    runtime: nvidia
+    network_mode: "host"
+    command: ros2 launch zed_wrapper zed2i.launch.py
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == thor

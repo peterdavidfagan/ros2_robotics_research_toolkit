@@ -1,0 +1,18 @@
+version: "3"
+
+services: 
+  foxglove_bridge:
+    image: ghcr.io/ipab-rad/foxglove_bridge:rolling
+    build: 
+      context: ../../
+      dockerfile: .docker/foxglove/Dockerfile.foxglove_bridge
+    devices:
+      - "/dev:/dev"
+    privileged: true
+    network_mode: "host"
+    cap_add:
+      - SYS_NICE
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == robot
