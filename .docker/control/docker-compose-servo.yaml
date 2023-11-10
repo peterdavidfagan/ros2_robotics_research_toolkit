@@ -2,7 +2,7 @@ version: "3"
 
 services: 
   servo:
-    image: ghcr.io/ipab-rad/lite6_control:rolling
+    image: ghcr.io/peterdavidfagan/lite6_control:rolling
     build: 
       context: ../../
       dockerfile: .docker/control/Dockerfile.control

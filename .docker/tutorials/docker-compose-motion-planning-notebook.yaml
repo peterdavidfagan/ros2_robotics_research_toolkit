@@ -2,7 +2,7 @@ version: "3"
 
 services: 
   control_server:
-    image: ghcr.io/ipab-rad/lite6_control:rolling
+    image: ghcr.io/peterdavidfagan/lite6_control:rolling
     networks:
       - ros_application
     build: 
@@ -40,7 +40,7 @@ services:
           - node.hostname == thor
   
   foxglove_bridge:
-    image: ghcr.io/ipab-rad/foxglove_bridge:rolling
+    image: ghcr.io/peterdavidfagan/foxglove_bridge:rolling
     networks:
       - ros_application
     deploy:
@@ -49,7 +49,7 @@ services:
           - node.hostname == thor
 
   moveit:
-    image: ghcr.io/ipab-rad/lite6_motion_planning:rolling
+    image: ghcr.io/peterdavidfagan/lite6_motion_planning:rolling
     build: 
       context: ../../
       dockerfile: .docker/motion_planning/Dockerfile.motion_planning
@@ -71,7 +71,7 @@ services:
           - node.hostname == thor
 
   notebook_server:
-    image: ghcr.io/ipab-rad/lite6_motion_planning:rolling
+    image: ghcr.io/peterdavidfagan/lite6_motion_planning:rolling
     build: 
       context: ../../
       dockerfile: .docker/motion_planning/Dockerfile.motion_planning

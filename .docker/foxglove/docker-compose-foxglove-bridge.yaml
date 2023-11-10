@@ -2,7 +2,7 @@ version: "3"
 
 services: 
   foxglove_bridge:
-    image: ghcr.io/ipab-rad/foxglove_bridge:rolling
+    image: ghcr.io/peterdavidfagan/foxglove_bridge:rolling
     build: 
       context: ../../
       dockerfile: .docker/foxglove/Dockerfile.foxglove_bridge

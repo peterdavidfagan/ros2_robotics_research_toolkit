@@ -2,7 +2,7 @@ version: "3"
 
 services: 
   control_server:
-    image: ghcr.io/ipab-rad/lite6_control:rolling
+    image: ghcr.io/peterdavidfagan/lite6_control:rolling
     build: 
       context: ../../
       dockerfile: .docker/control/Dockerfile.control
@@ -25,7 +25,7 @@ services:
           - node.hostname == robot
 
   moveit:
-    image: ghcr.io/ipab-rad/lite6_motion_planning:rolling
+    image: ghcr.io/peterdavidfagan/lite6_motion_planning:rolling
     build: 
       context: ../../
       dockerfile: .docker/motion_planning/Dockerfile.motion_planning
@@ -47,7 +47,7 @@ services:
 
 
   zed2:
-    image: ghcr.io/ipab-rad/zed2:rolling
+    image: ghcr.io/peterdavidfagan/zed2:rolling
     build: 
       context: ../../
       dockerfile: .docker/cameras/Dockerfile.zed
