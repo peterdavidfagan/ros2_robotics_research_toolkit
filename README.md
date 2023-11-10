@@ -2,6 +2,17 @@
 
 # IMPORTANT: This repository is a work in progress, once it is in a stable state this message will be removed.
 
+# Supported Robots 🤖
+
+
+| Robot | Image | Branch |
+|----------|----------|----------|
+| UFactory Lite6 | <img src="./assets/ufactory_lite6.jpg" width="200" />
+ | `ufactory_lite6` |
+| Franka Emika Panda | <img src="./assets/franka_emika_panda.jpg" width="200" />
+ | `franka_emika_panda` |
+
+
 # ROS 2 Robot Learning Workspace 🚀 
 This repository serves as a template for setting up a ROS 2 workspace for performing robot learning research. In order to run the code in this repository with a given robot, you simply need to change description packages that integrate the robot with `MoveIt` and `ROS 2 Control`, a guide for doing this will be added in future. 
 
@@ -23,12 +34,6 @@ The following tutorials are considered be added in future:
 If you use ROS 2 and are interested in contributing to this codebase please reach out at peterdavidfagan@gmail.com. If you use these tools in your research please star this repository. 
 
 <img src="./assets/workspace.jpg" width="400" />
-
-## Supported Robots 🤖
-A list of robots operated using this codebase (with minor alterations). I am open to starting a template repo with branches for each robot that is supported.
-
-* UFactory Lite6
-* Franka Emika Panda
 
 # Hardware Setup 🔧
 
