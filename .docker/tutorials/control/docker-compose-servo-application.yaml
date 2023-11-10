@@ -70,19 +70,6 @@ services:
         constraints:
           - node.hostname == thor
 
-  servo_client_container:
-    image: ghcr.io/peterdavidfagan/lite6_control:rolling
-    networks:
-      - ros_application
-    build: 
-      context: ../../
-      dockerfile: .docker/control/Dockerfile.control
-    command: sleep 3600
-    deploy:
-      placement:
-        constraints:
-          - node.hostname == thor
-
 networks:
    ros_application:
      name: "host"
