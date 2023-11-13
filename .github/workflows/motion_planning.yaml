@@ -1,8 +1,8 @@
-name: lite6_motion_planning
+name: panda_motion_planning
 
 on:
   push:
-    branches: ['ufactory_lite6']
+    branches: ['franka_emika_panda']
     paths:
       - .gitmodules
       - src/**
@@ -13,7 +13,7 @@ on:
 env:
   REGISTRY: ghcr.io
   ORG_NAME: peterdavidfagan
-  IMAGE_NAME: lite6_motion_planning
+  IMAGE_NAME: panda_motion_planning
 
 jobs:
   build-and-push-image:
@@ -49,4 +49,4 @@ jobs:
           file: .docker/motion_planning/Dockerfile.motion_planning
           push: true
           no-cache: true
-          tags: ${{ env.REGISTRY }}/${{ env.ORG_NAME }}/${{ env.IMAGE_NAME }}:rolling
+          tags: ${{ env.REGISTRY }}/${{ env.ORG_NAME }}/${{ env.IMAGE_NAME }}:humble
