@@ -13,10 +13,6 @@
 	path = src/motion_planning/moveit2
 	url = git@github.com:peterdavidfagan/moveit2.git
 	branch = pr-policies
-[submodule "src/control/franka_ros2"]
-	path = src/control/franka_ros2
-	url = git@github.com:peterdavidfagan/franka_ros2.giti
-	branch = moveit_config_builder
 [submodule "src/control/ros2_controllers"]
 	path = src/control/ros2_controllers
 	url = git@github.com:peterdavidfagan/ros2_controllers.git
