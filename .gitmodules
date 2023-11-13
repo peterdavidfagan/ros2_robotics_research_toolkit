@@ -26,3 +26,7 @@
 [submodule "src/motion_planning/franka_robotiq"]
 	path = src/motion_planning/franka_robotiq
 	url = git@github.com:peterdavidfagan/franka_robotiq.git
+[submodule "src/control/franka_ros2"]
+	path = src/control/franka_ros2
+	url = git@github.com:peterdavidfagan/franka_ros2.git
+	branch = moveit_config_builder
