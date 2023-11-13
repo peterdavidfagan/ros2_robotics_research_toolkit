@@ -1,4 +1,4 @@
-name: panda_control
+name: control
 
 on:
   push:
