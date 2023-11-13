@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.22)
-project(lite6_motion_planning_demos)
+project(panda_motion_planning_demos)
 
 find_package(ament_cmake REQUIRED)
 

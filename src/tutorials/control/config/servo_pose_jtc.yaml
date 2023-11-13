@@ -19,7 +19,7 @@ command_out_type: trajectory_msgs/JointTrajectory
 
 # What to publish? Can save some bandwidth as most robots only require positions or velocities
 publish_joint_positions: true
-publish_joint_velocities: false
+publish_joint_velocities: true
 publish_joint_accelerations: false
 
 ## Plugins for smoothing outgoing commands
@@ -33,11 +33,11 @@ smoothing_filter_plugin_name: "online_signal_smoothing::ButterworthFilterPlugin"
 is_primary_planning_scene_monitor: true
 
 ## MoveIt properties
-move_group_name:  lite6  # Often 'manipulator' or 'arm'
-planning_frame: link_base  # The MoveIt planning frame. Often 'base_link' or 'world'
+move_group_name:  panda_arm  # Often 'manipulator' or 'arm'
+planning_frame: panda_link0  # The MoveIt planning frame. Often 'base_link' or 'world'
 
 ## Other frames
-ee_frame: link_eef  # The name of the IK tip link
+ee_frame: panda_link8  # The name of the IK tip link
 
 ## Configure handling of singularities and joint limits
 lower_singularity_threshold:  17.0  # Start decelerating when the condition number hits this (close to singularity)
@@ -50,7 +50,7 @@ cartesian_command_in_topic: ~/delta_twist_cmds  # Topic for incoming Cartesian t
 joint_command_in_topic: ~/delta_joint_cmds # Topic for incoming joint angle commands
 joint_topic: /joint_states
 status_topic: ~/status # Publish status to this topic
-command_out_topic: /lite6_traj_controller/joint_trajectory # Publish outgoing commands here
+command_out_topic: /panda_jtc_controller/joint_trajectory # Publish outgoing commands here
 
 ## Collision checking for the entire robot body
 check_collisions: false # Check collisions?

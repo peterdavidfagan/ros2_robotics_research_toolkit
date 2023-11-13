@@ -4,19 +4,29 @@
 [submodule "src/cameras/zed-ros2-wrapper"]
 	path = src/cameras/zed-ros2-wrapper
 	url = git@github.com:peterdavidfagan/zed-ros2-wrapper.git
-	branch = rolling
+	branch = rolling # also work with humble
 [submodule "src/cameras/image_pipeline"]
 	path = src/cameras/image_pipeline
 	url = git@github.com:ros-perception/image_pipeline.git
-	branch = rolling
-[submodule "src/control/xarm_ros2"]
-	path = src/control/xarm_ros2
-	url = git@github.com:xArm-Developer/xarm_ros2.git
-	branch = rolling
-[submodule "src/motion_planning/lite6_moveit_resources"]
-	path = src/motion_planning/lite6_moveit_resources
-	url = git@github.com:peterdavidfagan/lite6_moveit_resources.git
+	branch = humble
 [submodule "src/motion_planning/moveit2"]
 	path = src/motion_planning/moveit2
 	url = git@github.com:peterdavidfagan/moveit2.git
 	branch = pr-policies
+[submodule "src/control/franka_ros2"]
+	path = src/control/franka_ros2
+	url = git@github.com:peterdavidfagan/franka_ros2.giti
+	branch = moveit_config_builder
+[submodule "src/control/ros2_controllers"]
+	path = src/control/ros2_controllers
+	url = git@github.com:peterdavidfagan/ros2_controllers.git
+[submodule "src/control/ros2_robotiq_gripper"]
+	path = src/control/ros2_robotiq_gripper
+	url = git@github.com:PickNikRobotics/ros2_robotiq_gripper.git
+[submodule "src/control/serial"]
+	path = src/control/serial
+	url = git@github.com:tylerjw/serial.git
+	branch = ros2
+[submodule "src/motion_planning/franka_robotiq"]
+	path = src/motion_planning/franka_robotiq
+	url = git@github.com:peterdavidfagan/franka_robotiq.git

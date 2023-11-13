@@ -1,6 +1,6 @@
 from setuptools import setup
 
-package_name = 'lite6_policy_deployment_demos'
+package_name = 'panda_policy_deployment_demos'
 
 setup(
  name=package_name,
@@ -22,7 +22,7 @@ setup(
  tests_require=['pytest'],
  entry_points={
      'console_scripts': [
-             'policy_deployment = lite6_policy_deployment_demos.policy_deployment:main'
+             'policy_deployment = panda_policy_deployment_demos.single_image_pose_policy:main'
      ],
    },
 )
@@ -30,6 +30,6 @@ setup(
 from generate_parameter_library_py.setup_helper import generate_parameter_module
 
 generate_parameter_module(
-  "lite6_policy_deployment_demos_parameters", # python module name for parameter library
+  "panda_policy_deployment_demos_parameters", # python module name for parameter library
   "config/policy.yaml", # path to input yaml file
 )

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.22)
-project(lite6_control_demos)
+project(panda_control_demos)
 
 find_package(ament_cmake REQUIRED)
 

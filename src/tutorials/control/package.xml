@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>lite6_control_demos</name>
+  <name>panda_control_demos</name>
   <version>0.0.0</version>
   <description>TODO: Package description</description>
   <maintainer email="peterdavidfagan@gmail.com">Peter David Fagan</maintainer>

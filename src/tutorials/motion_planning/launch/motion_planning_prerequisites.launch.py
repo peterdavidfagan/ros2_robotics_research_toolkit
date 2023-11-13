@@ -10,20 +10,21 @@ from moveit_configs_utils import MoveItConfigsBuilder
 
 def generate_launch_description():
     moveit_config = (
-        MoveItConfigsBuilder(robot_name="lite6", package_name="moveit_resources_lite6_moveit_config")
-        .trajectory_execution(file_path="config/moveit_controllers.yaml")
-        .robot_description_semantic("config/lite6.srdf")
-        .robot_description(file_path=get_package_share_directory("moveit_resources_lite6_description") 
-            + "/urdf/lite6.urdf")
-        .moveit_cpp(
-            file_path=get_package_share_directory("lite6_motion_planning_demos")
-            + "/config/moveit_cpp.yaml"
-        )
-        .to_moveit_configs()
-    )
+            MoveItConfigsBuilder(robot_name="panda", package_name="franka_robotiq_moveit_config")
+            .robot_description(file_path=get_package_share_directory("franka_robotiq_description") + "/urdf/robot.urdf.xacro", 
+                mappings={"robot_ip": "192.168.106.99", "robotiq_gripper": "false"})
+            .robot_description_semantic("config/panda.srdf.xacro")
+            .trajectory_execution("config/moveit_controllers.yaml")
+            .to_moveit_configs()
+            .moveit_cpp(
+                file_path=get_package_share_directory("panda_motion_planning_demos")
+                + "/config/moveit_cpp.yaml"
+            )
+            ).to_dict()
+
 
     rviz_config_file = (
-        get_package_share_directory("lite6_motion_planning_demos") + "/config/planning_scene.rviz"
+        get_package_share_directory("panda_motion_planning_demos") + "/config/planning_scene.rviz"
     )
     rviz_node = Node(
         package="rviz2",

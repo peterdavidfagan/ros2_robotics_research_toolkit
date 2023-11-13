@@ -6,13 +6,13 @@ from launch_ros.actions import Node
 def generate_launch_description():
     
     policy_params = {
-            "policy_node": ParameterBuilder("lite6_policy_deployment_demos")
+            "policy_node": ParameterBuilder("panda_policy_deployment_demos")
             .yaml("config/policy.yaml")
             .to_dict()
             }
 
     policy_node = Node(
-            package="lite6_policy_deployment_demos",
+            package="panda_policy_deployment_demos",
             executable="policy_deployment",
             parameters=[policy_params],
             output="both",

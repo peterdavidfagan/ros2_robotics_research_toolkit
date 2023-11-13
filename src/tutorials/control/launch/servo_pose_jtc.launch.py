@@ -13,17 +13,13 @@ from moveit_configs_utils import MoveItConfigsBuilder
 
 def generate_launch_description():
     moveit_config = (
-        MoveItConfigsBuilder(robot_name="lite6", package_name="moveit_resources_lite6_moveit_config")
-        .trajectory_execution(file_path="config/moveit_controllers.yaml")
-        .robot_description_semantic("config/lite6.srdf")
-        .robot_description(file_path=get_package_share_directory("moveit_resources_lite6_description") 
-            + "/urdf/lite6.urdf")
-        .moveit_cpp(
-            file_path=get_package_share_directory("lite6_motion_planning_demos")
-            + "/config/moveit_cpp.yaml"
-        )
-        .to_moveit_configs()
-    )
+            MoveItConfigsBuilder(robot_name="panda", package_name="franka_robotiq_moveit_config")
+            .robot_description(file_path=get_package_share_directory("franka_robotiq_description") + "/urdf/robot.urdf.xacro", 
+                mappings={"robot_ip": "192.168.106.99", "robotiq_gripper": "true"})
+            .robot_description_semantic("config/panda.srdf.xacro")
+            .trajectory_execution("config/moveit_controllers.yaml")
+            .to_moveit_configs()
+            )
 
     # Launch Servo as a standalone node or as a "node component" for better latency/efficiency
     launch_as_standalone_node = LaunchConfiguration(
@@ -32,7 +28,7 @@ def generate_launch_description():
 
     # Get parameters for the Servo node
     servo_params = {
-        "moveit_servo": ParameterBuilder("lite6_control_demos")
+        "moveit_servo": ParameterBuilder("panda_control_demos")
         .yaml("config/servo_pose_jtc.yaml")
         .to_dict()
     }
