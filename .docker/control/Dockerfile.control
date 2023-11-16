@@ -23,7 +23,7 @@ RUN apt update && apt upgrade -y && \
     dpkg -i libfranka-*.deb
 
 # set up ROS workspace
-ENV ROS_UNDERLAY /root/lite6_ws/install
+ENV ROS_UNDERLAY /root/panda_ws/install
 WORKDIR $ROS_UNDERLAY/..
 COPY src/control ./src/control
 COPY src/motion_planning ./src/motion_planning
