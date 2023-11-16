@@ -50,7 +50,6 @@ def generate_launch_description():
     load_controllers = []
     for controller in [
         'panda_jtc_controller',
-        'panda_position_controller',
         'joint_state_broadcaster', 
     ]:
         load_controllers += [
