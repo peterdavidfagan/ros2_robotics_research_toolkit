@@ -20,3 +20,9 @@
 	path = src/motion_planning/moveit2
 	url = git@github.com:peterdavidfagan/moveit2.git
 	branch = pr-policies
+[submodule "src/grasping/ros2_deep_grasps_interfaces"]
+	path = src/grasping/ros2_deep_grasps_interfaces
+	url = git@github.com:peterdavidfagan/ros2_deep_grasps_interfaces.git
+[submodule "src/grasping/ros2_deep_grasps"]
+	path = src/grasping/ros2_deep_grasps
+	url = git@github.com:peterdavidfagan/ros2_deep_grasps.git
