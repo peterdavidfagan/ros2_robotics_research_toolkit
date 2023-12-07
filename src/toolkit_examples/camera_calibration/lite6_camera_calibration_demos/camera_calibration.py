@@ -190,9 +190,9 @@ class CameraCalibration(Node):
                 calibration_workspace["rot_z_min"],
                 calibration_workspace["rot_z_max"]
                 )
-        rot = Rotation.from_euler('xyz', [rot_x, rot_y, rot_z], degrees=True)
+        rot = Rotation.from_euler("XYZ", [rot_x, rot_y, rot_z], degrees=True)
         rot_quat = rot.as_quat()
-        rot_eul = rot.as_euler("xyz", degrees=True)
+        rot_eul = rot.as_euler("XYZ", degrees=True)
         
         pose_goal.pose.orientation.x = rot_quat[0]
         pose_goal.pose.orientation.y = rot_quat[1]
