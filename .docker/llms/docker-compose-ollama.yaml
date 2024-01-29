@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+  ollama:
+    image: ollama/ollama:latest
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+    volumes:
+      - /ollama:/root/.ollama
+    runtime: nvidia
