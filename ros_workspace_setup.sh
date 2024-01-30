@@ -13,5 +13,5 @@ cd ../../
 rosdep install --from-paths . --ignore-src --rosdistro rolling -r -y
 
 # build the workspace
-source /opt/ros/humble/setup.bash
+source /opt/ros/rolling/setup.bash
 colcon build --mixin release
