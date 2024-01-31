@@ -1,19 +1,22 @@
+"""
+A launch file for running the motion planning python api tutorial
+"""
 import os
-from launch import LaunchDescription
-from launch.launch_description_sources import load_python_launch_file_as_module
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
-from launch_ros.actions import Node, SetParameter
-from launch.actions import ExecuteProcess
 from ament_index_python.packages import get_package_share_directory
+from launch import LaunchDescription
+from launch_ros.actions import Node
+from launch.actions import DeclareLaunchArgument, ExecuteProcess
+from launch.substitutions import LaunchConfiguration
 from moveit_configs_utils import MoveItConfigsBuilder
 
 
 def generate_launch_description():
+    use_sim_time = LaunchConfiguration("use_sim_time", default="true")
     moveit_config = (
             MoveItConfigsBuilder(robot_name="panda", package_name="franka_robotiq_moveit_config")
-            .robot_description(file_path=get_package_share_directory("franka_robotiq_description") + "/urdf/robot.urdf.xacro", 
-                mappings={"robot_ip": "192.168.106.99", "robotiq_gripper": "true", "use_fake_hardware": "true"})
-            .robot_description_semantic("config/panda.srdf.xacro")
+            .robot_description(file_path=get_package_share_directory("franka_robotiq_description") + "/urdf/robot.urdf.xacro",
+                mappings={"robot_ip": "192.168.106.99", "robotiq_gripper": "false", "use_fake_hardware": "true"})
+            .robot_description_semantic("config/panda.srdf.xacro", mappings={"robotiq_gripper": "false"})
             .trajectory_execution("config/moveit_controllers.yaml")
             .moveit_cpp(
                 file_path=get_package_share_directory("panda_motion_planning_demos")
@@ -21,19 +24,32 @@ def generate_launch_description():
             )
             .to_moveit_configs()
             )
-    #rviz_config_file = (
-    #    get_package_share_directory("panda_motion_planning_demos") + "/config/planning_scene.rviz"
-    #)
+    
+    moveit_config_dict = moveit_config.to_dict()
+    moveit_py_node = Node(
+        name="moveit_py",
+        package="panda_motion_planning_demos",
+        executable="motion_planning.py",
+        output="both",
+        arguments=[
+            "--ros-args",
+            "--log-level",
+            "info"],
+        parameters=[
+            moveit_config_dict, 
+            {"use_sim_time": use_sim_time}
+            ],
+    )
+
     rviz_node = Node(
         package="rviz2",
         executable="rviz2",
         name="rviz2",
         output="log",
-     #   arguments=["-d", rviz_config_file],
         parameters=[
             moveit_config.robot_description,
             moveit_config.robot_description_semantic,
-            {"use_sim_time": True},
+            {"use_sim_time": use_sim_time},
         ],
     )
 
@@ -44,7 +60,7 @@ def generate_launch_description():
         output="log",
         arguments=["0.0", "0.0", "0.0", "0.0", "0.0", "0.0", "world", "panda_link0"],
         parameters=[
-            {"use_sim_time": True},
+            {"use_sim_time": use_sim_time},
         ],
     )
 
@@ -55,18 +71,18 @@ def generate_launch_description():
         output="both",
         parameters=[
             moveit_config.robot_description,
-            {"use_sim_time": True},
+            {"use_sim_time": use_sim_time},
             ],
-        remappings=[("joint_states", "/mujoco_joint_states")],
     )
 
 
-    # We can start a notebook from a launch file
     return LaunchDescription(
         [
             static_tf,
             robot_state_publisher,
             rviz_node,
+            moveit_py_node,
         ]
         )
+
 

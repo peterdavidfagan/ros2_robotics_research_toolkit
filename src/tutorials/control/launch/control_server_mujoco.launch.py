@@ -12,6 +12,7 @@ from moveit_configs_utils import MoveItConfigsBuilder
 
 
 def generate_launch_description():
+    use_sim_time = LaunchConfiguration("use_sim_time", default="true")
     moveit_config = (
             MoveItConfigsBuilder(robot_name="panda", package_name="franka_robotiq_moveit_config")
             .robot_description(file_path=get_package_share_directory("franka_robotiq_description") + "/urdf/robot.urdf.xacro", 
@@ -26,7 +27,7 @@ def generate_launch_description():
         executable='joint_state_publisher',
         name='joint_state_publisher',
         output='screen',
-        parameters=[{'source_list': ['franka/joint_states']}],
+        parameters=[{'source_list': ['/mujoco_joint_states']}, {'use_sim_time': use_sim_time}],
     )
 
     ros2_controllers_path = os.path.join(
@@ -35,15 +36,15 @@ def generate_launch_description():
         "ros2_controllers.yaml",
     )
     
-
     ros2_control_node = Node(
         package="controller_manager",
         executable="ros2_control_node",
         parameters=[
             moveit_config.robot_description,
-            ros2_controllers_path
+            ros2_controllers_path,
+            {"use_sim_time": use_sim_time},
             ],
-        remappings=[('joint_states', 'franka/joint_states')],
+        remappings=[('joint_states', '/mujoco_joint_states')],
         output="both",
     )
 
