@@ -3,7 +3,7 @@ name: Deploy Documentation
 on:
   push:
     branches: 
-      - "main"
+      - "franka_emika_panda"
     paths:
       - "docs/**"
   workflow_dispatch:
