@@ -6,9 +6,16 @@ nav_order: 1
 
 # 🤖 ROS 2 Robotics Research Toolkit
 
-<img src="./assets/index/link_robotics.jpeg" height=250/>
+This toolkit provides a set of ROS packages with examples of using these packages in robot learning research. 
 
+## Supported Robots
 
-## 👋 Welcome to the ROS 2 Robotics Research Toolkit
+* Franka Emika Panda
+* UFactory Lite 6
 
+## Supported Use Cases
 
+* Speech-to-Text
+* Camera Calibration
+* Motion Planning
+* Deploying Neural Network Policies
