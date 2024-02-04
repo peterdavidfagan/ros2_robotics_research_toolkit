@@ -6,7 +6,7 @@ nav_order: 1
 
 # 🤖 ROS 2 Robotics Research Toolkit
 
-![](./assets/index/link_robotics.jpeg)
+<img src="./assets/index/link_robotics.jpeg" height=300/>
 
 
 ## 👋 Welcome to the ROS 2 Robotics Research Toolkit
