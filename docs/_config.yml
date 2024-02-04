@@ -3,7 +3,6 @@ description: Guides for performing robot learning research with ROS 2 ecosystem.
 theme: just-the-docs
 
 url: https://peterdavidfagan.github.io/ros2_robotics_research_toolkit # this url not being used right now
-favicon_ico: "./assets/robot.ico"
 color_scheme: ros2_robotics_research_toolkit # TODO: update name to DROID
 
 aux_links:
