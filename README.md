@@ -4,3 +4,4 @@
 # ROS 2 Robot Learning Workspace 🚀 
 This toolkit provides a set of ROS packages with examples of using these packages in robot learning research. For further information please check out the [developer documentation](https://peterdavidfagan.com/ros2_robotics_research_toolkit/).
 
+This workspace is intended to be used in conjunction with the following baselines repository [robot_learning_baselines](https://github.com/peterdavidfagan/robot_learning_baselines).
