@@ -4,8 +4,8 @@ project(panda_motion_planning_demos)
 find_package(ament_cmake REQUIRED)
 
 install(PROGRAMS
-  src/blend_plans.py
   src/motion_planning.py
+  src/motion_planning_planning_scene.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
