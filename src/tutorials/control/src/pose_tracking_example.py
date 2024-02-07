@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""A basic data collection script."""
+"""Demo of tracking poses."""
 import os
 import time
 
@@ -67,7 +67,7 @@ class PoseTracker(Node):
         """Gets the current pose of the robot."""
         self.arm.set_start_state_to_current_state()
         robot_state = self.arm.get_start_state()
-        pose = robot_state.get_pose("link_eef")
+        pose = robot_state.get_pose("panda_link8") # TODO: change to end effector link
         return pose
 
     # TODO: properly implement this
@@ -125,7 +125,7 @@ class PoseTracker(Node):
         self.poses = []
         for (position, orientation) in zip(positions, orientations):
             pose = PoseStamped()
-            pose.header.frame_id = "link_base"
+            pose.header.frame_id = "panda_link0"
             pose.pose.position = position
             pose.pose.orientation = orientation
             self.poses.append(pose)

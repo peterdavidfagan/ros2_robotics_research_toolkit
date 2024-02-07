@@ -12,10 +12,37 @@ from moveit_configs_utils import MoveItConfigsBuilder
 
 
 def generate_launch_description():
+    
+    # declare parameter for using robot ip
+    robot_ip = DeclareLaunchArgument(
+        "robot_ip",
+        default_value="192.168.106.99",
+        description="Robot IP",
+    )
+
+    # declare parameter for using gripper
+    use_gripper = DeclareLaunchArgument(
+        "use_gripper",
+        default_value="false",
+        description="Use gripper",
+    )
+    
+    # declare parameter for using fake controller
+    use_fake_hardware = DeclareLaunchArgument(
+        "use_fake_hardware",
+        default_value="false",
+        description="Use fake hardware",
+    )
+
+
     moveit_config = (
             MoveItConfigsBuilder(robot_name="panda", package_name="franka_robotiq_moveit_config")
             .robot_description(file_path=get_package_share_directory("franka_robotiq_description") + "/urdf/robot.urdf.xacro", 
-                mappings={"robot_ip": "192.168.106.99", "robotiq_gripper": "true"})
+                mappings={
+                    "robot_ip": LaunchConfiguration("robot_ip"),
+                    "robotiq_gripper": LaunchConfiguration("use_gripper"),
+                    "use_fake_hardware": LaunchConfiguration("use_fake_hardware"),
+                    })
             .robot_description_semantic("config/panda.srdf.xacro")
             .trajectory_execution("config/moveit_controllers.yaml")
             .to_moveit_configs()
@@ -68,7 +95,7 @@ def generate_launch_description():
                 package="tf2_ros",
                 plugin="tf2_ros::StaticTransformBroadcasterNode",
                 name="static_tf2_broadcaster",
-              parameters=[{"child_frame_id": "/link_base", "frame_id": "/world"}],
+              parameters=[{"child_frame_id": "/panda_link0", "frame_id": "/world"}],
             ),
         ],
         output="screen",

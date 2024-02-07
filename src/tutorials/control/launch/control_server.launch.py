@@ -12,30 +12,63 @@ from moveit_configs_utils import MoveItConfigsBuilder
 
 
 def generate_launch_description():
+    
+    # declare parameter for using robot ip
+    robot_ip = DeclareLaunchArgument(
+        "robot_ip",
+        default_value="192.168.106.99",
+        description="Robot IP",
+    )
+
+    # declare parameter for using gripper
+    use_gripper = DeclareLaunchArgument(
+        "use_gripper",
+        default_value="false",
+        description="Use gripper",
+    )
+    
+    # declare parameter for using fake controller
+    use_fake_hardware = DeclareLaunchArgument(
+        "use_fake_hardware",
+        default_value="false",
+        description="Use fake hardware",
+    )
+
     moveit_config = (
             MoveItConfigsBuilder(robot_name="panda", package_name="franka_robotiq_moveit_config")
             .robot_description(file_path=get_package_share_directory("franka_robotiq_description") + "/urdf/robot.urdf.xacro", 
-                mappings={"robot_ip": "192.168.106.99", "robotiq_gripper": "false"})
+                mappings={
+                    "robot_ip": LaunchConfiguration("robot_ip"),
+                    "robotiq_gripper": LaunchConfiguration("use_gripper"),
+                    "use_fake_hardware": LaunchConfiguration("use_fake_hardware"),
+                    })
             .robot_description_semantic("config/panda.srdf.xacro")
             .trajectory_execution("config/moveit_controllers.yaml")
             .to_moveit_configs()
             )
+    
+    # if we are using fake hardware adjust joint state topic
+    if not LaunchConfiguration("use_fake_hardware"):
+        joint_state_topic = "franka/joint_states"
+        ros2_controller_config = "ros2_controllers.yaml"
+    else:
+        joint_state_topic = "/mujoco_joint_states"
+        ros2_controller_config = "ros2_controllers_mujoco.yaml"
 
     joint_state_publisher = Node(
         package='joint_state_publisher',
         executable='joint_state_publisher',
         name='joint_state_publisher',
         output='screen',
-        parameters=[{'source_list': ['franka/joint_states']}],
+        parameters=[{'source_list': [joint_state_topic]}],
     )
 
     ros2_controllers_path = os.path.join(
         get_package_share_directory("franka_robotiq_moveit_config"),
         "config",
-        "ros2_controllers.yaml",
+        ros2_controller_config,
     )
     
-
     ros2_control_node = Node(
         package="controller_manager",
         executable="ros2_control_node",
@@ -43,7 +76,7 @@ def generate_launch_description():
             moveit_config.robot_description,
             ros2_controllers_path
             ],
-        remappings=[('joint_states', 'franka/joint_states')],
+        remappings=[('joint_states', joint_state_topic)],
         output="both",
     )
 
@@ -60,7 +93,6 @@ def generate_launch_description():
             )
         ]
 
-    # We can start a notebook from a launch file
     return LaunchDescription(
         [
             joint_state_publisher,
