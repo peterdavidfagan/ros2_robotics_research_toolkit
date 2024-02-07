@@ -31,7 +31,6 @@ def plan_and_execute(
     if plan_result:
         logger.info("Executing plan")
         robot_trajectory = plan_result.trajectory
-        input("Press Enter to execute trajectory")
         robot.execute(robot_trajectory, controllers=[])
     else:
         logger.error("Planning failed")
@@ -56,7 +55,7 @@ def add_collision_objects(planning_scene_monitor):
 
     with planning_scene_monitor.read_write() as scene:
         collision_object = CollisionObject()
-        collision_object.header.frame_id = "link_base"
+        collision_object.header.frame_id = "panda_link0"
         collision_object.id = "boxes"
 
         for position, dimensions in zip(object_positions, object_dimensions):
@@ -85,9 +84,9 @@ def main():
     logger = get_logger("moveit_py_planning_scene")
 
     # instantiate MoveItPy instance and get planning component
-    lite6 = MoveItPy(node_name="moveit_py_planning_scene")
-    lite6_arm = lite6.get_planning_component("lite6")
-    planning_scene_monitor = lite6.get_planning_scene_monitor()
+    panda = MoveItPy(node_name="moveit_py_planning_scene")
+    panda_arm = panda.get_planning_component("panda_arm")
+    planning_scene_monitor = panda.get_planning_scene_monitor()
     logger.info("MoveItPy instance created")
 
     ###################################################################
@@ -95,16 +94,16 @@ def main():
     ###################################################################
 
     add_collision_objects(planning_scene_monitor)
-    lite6_arm.set_start_state_to_current_state()
-    lite6_arm.set_goal_state(configuration_name="home")
-    plan_and_execute(lite6, lite6_arm, logger, sleep_time=3.0)
+    panda_arm.set_start_state_to_current_state()
+    panda_arm.set_goal_state(configuration_name="home")
+    plan_and_execute(panda, panda_arm, logger, sleep_time=3.0)
 
     ###################################################################
     # Check collisions
     ###################################################################
     with planning_scene_monitor.read_only() as scene:
         robot_state = scene.current_state
-        original_joint_positions = robot_state.get_joint_group_positions("lite6")
+        original_joint_positions = robot_state.get_joint_group_positions("panda_arm")
 
         # Set the pose goal
         pose_goal = Pose()
@@ -114,16 +113,16 @@ def main():
         pose_goal.orientation.w = 1.0
 
         # Set the robot state and check collisions
-        robot_state.set_from_ik("lite6", pose_goal, "link6")
+        robot_state.set_from_ik("panda_arm", pose_goal, "panda_link8")
         robot_state.update()  # required to update transforms
         robot_collision_status = scene.is_state_colliding(
-            robot_state=robot_state, joint_model_group_name="lite6", verbose=True
+            robot_state=robot_state, joint_model_group_name="panda_arm", verbose=True
         )
         logger.info(f"\nRobot is in collision: {robot_collision_status}\n")
 
         # Restore th original state
         robot_state.set_joint_group_positions(
-            "lite6",
+            "panda_arm",
             original_joint_positions,
         )
         robot_state.update()  # required to update transforms
@@ -138,9 +137,9 @@ def main():
         scene.remove_all_collision_objects()
         scene.current_state.update()
 
-    lite6_arm.set_start_state_to_current_state()
-    lite6_arm.set_goal_state(configuration_name="ready")
-    plan_and_execute(lite6, lite6_arm, logger, sleep_time=3.0)
+    panda_arm.set_start_state_to_current_state()
+    panda_arm.set_goal_state(configuration_name="ready")
+    plan_and_execute(panda, panda_arm, logger, sleep_time=3.0)
 
 
 if __name__ == "__main__":

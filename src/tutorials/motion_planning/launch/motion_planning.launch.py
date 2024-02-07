@@ -11,12 +11,40 @@ from moveit_configs_utils import MoveItConfigsBuilder
 
 
 def generate_launch_description():
-    use_sim_time = LaunchConfiguration("use_sim_time", default="true")
+    
+    # declare parameter for using robot ip
+    robot_ip = DeclareLaunchArgument(
+        "robot_ip",
+        default_value="192.168.106.99",
+        description="Robot IP",
+    )
+
+    # declare parameter for using gripper
+    use_gripper = DeclareLaunchArgument(
+        "use_gripper",
+        default_value="false",
+        description="Use gripper",
+    )
+    
+    # declare parameter for using fake controller
+    use_fake_hardware = DeclareLaunchArgument(
+        "use_fake_hardware",
+        default_value="false",
+        description="Use fake hardware",
+    )
+
     moveit_config = (
             MoveItConfigsBuilder(robot_name="panda", package_name="franka_robotiq_moveit_config")
             .robot_description(file_path=get_package_share_directory("franka_robotiq_description") + "/urdf/robot.urdf.xacro",
-                mappings={"robot_ip": "192.168.106.99", "robotiq_gripper": "false", "use_fake_hardware": "true"})
-            .robot_description_semantic("config/panda.srdf.xacro", mappings={"robotiq_gripper": "false"})
+                mappings={
+                    "robot_ip": LaunchConfiguration("robot_ip"),
+                    "robotiq_gripper": LaunchConfiguration("use_gripper"),
+                    "use_fake_hardware": LaunchConfiguration("use_fake_hardware"),
+                    })
+            .robot_description_semantic("config/panda.srdf.xacro", 
+                mappings={
+                    "robotiq_gripper": LaunchConfiguration("use_gripper"),
+                    })
             .trajectory_execution("config/moveit_controllers.yaml")
             .moveit_cpp(
                 file_path=get_package_share_directory("panda_motion_planning_demos")
@@ -37,19 +65,21 @@ def generate_launch_description():
             "info"],
         parameters=[
             moveit_config_dict, 
-            {"use_sim_time": use_sim_time}
             ],
     )
-
+    
+    rviz_config_file = (
+        get_package_share_directory("panda_motion_planning_demos") + "/config/planning_scene.rviz"
+    )
     rviz_node = Node(
         package="rviz2",
         executable="rviz2",
         name="rviz2",
         output="log",
+        arguments=["-d", rviz_config_file],
         parameters=[
             moveit_config.robot_description,
             moveit_config.robot_description_semantic,
-            {"use_sim_time": use_sim_time},
         ],
     )
 
@@ -60,7 +90,6 @@ def generate_launch_description():
         output="log",
         arguments=["0.0", "0.0", "0.0", "0.0", "0.0", "0.0", "world", "panda_link0"],
         parameters=[
-            {"use_sim_time": use_sim_time},
         ],
     )
 
@@ -71,7 +100,6 @@ def generate_launch_description():
         output="both",
         parameters=[
             moveit_config.robot_description,
-            {"use_sim_time": use_sim_time},
             ],
     )
 
