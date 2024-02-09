@@ -49,4 +49,4 @@ jobs:
           file: .docker/motion_planning/Dockerfile.motion_planning
           push: true
           no-cache: true
-          tags: ${{ env.REGISTRY }}/${{ env.ORG_NAME }}/${{ env.IMAGE_NAME }}:humble
+          tags: ${{ env.REGISTRY }}/${{ env.ORG_NAME }}/${{ env.IMAGE_NAME }}:rolling
