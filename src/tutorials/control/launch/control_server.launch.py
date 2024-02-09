@@ -95,6 +95,9 @@ def generate_launch_description():
 
     return LaunchDescription(
         [
+            robot_ip, 
+            use_gripper,
+            use_fake_hardware,
             joint_state_publisher,
             ros2_control_node,
         ]
