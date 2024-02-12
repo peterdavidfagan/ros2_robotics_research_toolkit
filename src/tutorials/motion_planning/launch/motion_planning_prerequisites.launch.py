@@ -1,3 +1,9 @@
+"""
+Launch file for motion planning prerequisites but not motion planning application software.
+
+This file is used to interactively script motion planning with a jupyter notebook or python scripts.
+"""
+
 import os
 from launch import LaunchDescription
 from launch.launch_description_sources import load_python_launch_file_as_module
@@ -54,21 +60,6 @@ def generate_launch_description():
     else:
         joint_state_topic = "/mujoco_joint_states"
 
-    rviz_config_file = (
-        get_package_share_directory("panda_motion_planning_demos") + "/config/planning_scene.rviz"
-    )
-    rviz_node = Node(
-        package="rviz2",
-        executable="rviz2",
-        name="rviz2",
-        output="log",
-        arguments=["-d", rviz_config_file],
-        parameters=[
-            moveit_config.robot_description,
-            moveit_config.robot_description_semantic,
-        ],
-    )
-
     static_tf = Node(
         package="tf2_ros",
         executable="static_transform_publisher",
@@ -93,7 +84,6 @@ def generate_launch_description():
         [
             static_tf,
             robot_state_publisher,
-            rviz_node,
         ]
         )
 
