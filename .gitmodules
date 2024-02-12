@@ -40,9 +40,6 @@
 [submodule "src/mujoco/mujoco_ros_sim"]
 	path = src/mujoco/mujoco_ros_sim
 	url = git@github.com:peterdavidfagan/mujoco_ros_sim.git
-[submodule "src/llm/ros2_DSPy"]
-	path = src/llm/ros2_DSPy
-	url = git@github.com:peterdavidfagan/ros2_DSPy.git
 [submodule "src/grasping/ros2_deep_grasps"]
 	path = src/grasping/ros2_deep_grasps
 	url = git@github.com:peterdavidfagan/ros2_deep_grasps.git
