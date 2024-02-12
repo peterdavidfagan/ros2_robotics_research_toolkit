@@ -25,7 +25,7 @@ policy:
       }
     topic: {
         type: string,
-        default_value: "/zed2i/zed_node/rgb/image_rect_color",
+        default_value: "/front_camera",
         description: "",
       }
     qos: {

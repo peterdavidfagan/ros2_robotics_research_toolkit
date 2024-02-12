@@ -22,7 +22,7 @@ def generate_launch_description():
     # declare parameter for using gripper
     use_gripper = DeclareLaunchArgument(
         "use_gripper",
-        default_value="false",
+        default_value="true",
         description="Use gripper",
     )
     
@@ -106,6 +106,9 @@ def generate_launch_description():
 
     return LaunchDescription(
         [
+            robot_ip,
+            use_gripper,
+            use_fake_hardware,
             static_tf,
             robot_state_publisher,
             rviz_node,
