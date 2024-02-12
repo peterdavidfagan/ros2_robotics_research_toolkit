@@ -9,10 +9,6 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <depend>backward_ros</depend>
-  <depend>xarm_description</depend>
-  <depend>xarm_controller</depend>
-  <depend>xarm_gazebo</depend>
   <depend>generate_parameter_library</depend>
   
   <exec_depend>rviz2</exec_depend>
@@ -29,6 +25,9 @@
   <exec_depend>moveit_ros_move_group</exec_depend>
   <exec_depend>moveit_py</exec_depend>
   <exec_depend>jupyter-notebook</exec_depend>
+  <exec_depend>onnx</exec_depend>
+  <exec_depend>jaxonnxruntime</exec_depend>
+  <exec_depend>einops</exec_depend>
 
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>
