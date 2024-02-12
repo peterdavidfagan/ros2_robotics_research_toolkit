@@ -22,14 +22,14 @@ def generate_launch_description():
     # declare parameter for using gripper
     use_gripper = DeclareLaunchArgument(
         "use_gripper",
-        default_value="false",
+        default_value="true",
         description="Use gripper",
     )
     
     # declare parameter for using fake controller
     use_fake_hardware = DeclareLaunchArgument(
         "use_fake_hardware",
-        default_value="false",
+        default_value="true",
         description="Use fake hardware",
     )
 
@@ -117,6 +117,9 @@ def generate_launch_description():
 
     return launch.LaunchDescription(
         [
+            robot_ip,
+            use_gripper,
+            use_fake_hardware,
             servo_node,
             container,
         ]

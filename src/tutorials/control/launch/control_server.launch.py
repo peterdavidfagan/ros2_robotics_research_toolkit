@@ -23,14 +23,14 @@ def generate_launch_description():
     # declare parameter for using gripper
     use_gripper = DeclareLaunchArgument(
         "use_gripper",
-        default_value="false",
+        default_value="true",
         description="Use gripper",
     )
     
     # declare parameter for using fake controller
     use_fake_hardware = DeclareLaunchArgument(
         "use_fake_hardware",
-        default_value="false",
+        default_value="true", # default to fake hardware (Important: that user is explicit with intention of launching real hardware!)
         description="Use fake hardware",
     )
 
