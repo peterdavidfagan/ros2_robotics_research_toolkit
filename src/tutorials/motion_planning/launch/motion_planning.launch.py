@@ -2,6 +2,7 @@
 A launch file for running the motion planning python api tutorial
 """
 import os
+import pathlib
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch_ros.actions import Node
@@ -11,6 +12,8 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from moveit_configs_utils import MoveItConfigsBuilder
 
+FILE_PATH = pathlib.Path(__file__).parent.absolute()
+DOCKER_COMPOSE_FILE_PATH = str(FILE_PATH) + "/../../../../../.docker/foxglove/docker-compose-motion-planning.yaml"
 
 def generate_launch_description():
     
@@ -38,6 +41,17 @@ def generate_launch_description():
 
     start_foxglove_bridge = ExecuteProcess(
             cmd=["ros2", "launch", "foxglove_bridge", "foxglove_bridge_launch.xml"],
+            output="screen",
+            )
+    
+    # for some reason with docker its quite slow to stream data
+    #start_foxglove_studio = ExecuteProcess(
+    #        cmd=["docker", "compose", "-f", DOCKER_COMPOSE_FILE_PATH, "up"],
+    #        output="screen",
+    #        )
+    
+    open_foxglove_studio = ExecuteProcess(
+            cmd=["xdg-open", "http://localhost:8080"],
             output="screen",
             )
 
