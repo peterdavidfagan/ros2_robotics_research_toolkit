@@ -2,7 +2,7 @@ import os
 import launch
 import launch_ros
 from launch_ros.actions import Node, SetParameter
-from launch.actions import ExecuteProcess
+from launch.actions import ExecuteProcess, DeclareLaunchArgument
 from launch.launch_description_sources import load_python_launch_file_as_module
 from ament_index_python.packages import get_package_share_directory
 from launch.conditions import IfCondition, UnlessCondition
@@ -47,11 +47,53 @@ def generate_launch_description():
             .trajectory_execution("config/moveit_controllers.yaml")
             .to_moveit_configs()
             )
+    
 
-    # Launch Servo as a standalone node or as a "node component" for better latency/efficiency
-    launch_as_standalone_node = LaunchConfiguration(
-        "launch_as_standalone_node", default="false"
+    # if we are using fake hardware adjust joint state topic
+    if not LaunchConfiguration("use_fake_hardware"):
+        joint_state_topic = "franka/joint_states"
+        ros2_controller_config = "ros2_controllers.yaml"
+    else:
+        joint_state_topic = "/mujoco_joint_states"
+        ros2_controller_config = "ros2_controllers_mujoco.yaml"
+
+    joint_state_publisher = Node(
+        package='joint_state_publisher',
+        executable='joint_state_publisher',
+        name='joint_state_publisher',
+        output='screen',
+        parameters=[{'source_list': [joint_state_topic]}],
     )
+
+    ros2_controllers_path = os.path.join(
+        get_package_share_directory("franka_robotiq_moveit_config"),
+        "config",
+        ros2_controller_config,
+    )
+    
+    ros2_control_node = Node(
+        package="controller_manager",
+        executable="ros2_control_node",
+        parameters=[
+            moveit_config.robot_description,
+            ros2_controllers_path
+            ],
+        remappings=[('joint_states', joint_state_topic)],
+        output="both",
+    )
+
+    load_controllers = []
+    for controller in [
+        'panda_jtc_controller',
+        'joint_state_broadcaster', 
+    ]:
+        load_controllers += [
+            ExecuteProcess(
+                cmd=["ros2 run controller_manager spawner {}".format(controller)],
+                shell=True,
+                output="screen",
+            )
+        ]
 
     # Get parameters for the Servo node
     servo_params = {
@@ -63,28 +105,12 @@ def generate_launch_description():
     # This filter parameter should be >1. Increase it for greater smoothing but slower motion.
     low_pass_filter_coeff = {"butterworth_filter_coeff": 1.5}
     
-    # Launch as much as possible in components
     container = launch_ros.actions.ComposableNodeContainer(
         name="moveit_servo_demo_container",
         namespace="/",
         package="rclcpp_components",
         executable="component_container_mt",
         composable_node_descriptions=[
-            # Example of launching Servo as a node component
-            # Launching as a node component makes ROS 2 intraprocess communication more efficient.
-            launch_ros.descriptions.ComposableNode(
-                package="moveit_servo",
-                plugin="moveit_servo::ServoNode",
-                name="servo_node",
-                parameters=[
-                    servo_params,
-                    low_pass_filter_coeff,
-                    moveit_config.robot_description,
-                    moveit_config.robot_description_semantic,
-                    moveit_config.robot_description_kinematics,
-                ],
-                condition=UnlessCondition(launch_as_standalone_node),
-            ),
             launch_ros.descriptions.ComposableNode(
                 package="robot_state_publisher",
                 plugin="robot_state_publisher::RobotStatePublisher",
@@ -100,6 +126,7 @@ def generate_launch_description():
         ],
         output="screen",
     )
+
     # Launch a standalone Servo node.
     # As opposed to a node component, this may be necessary (for example) if Servo is running on a different PC
     servo_node = launch_ros.actions.Node(
@@ -112,16 +139,19 @@ def generate_launch_description():
             moveit_config.robot_description,
             moveit_config.robot_description_semantic,
             moveit_config.robot_description_kinematics,
+            moveit_config.joint_limits,
         ],
         output="screen",
-        condition=IfCondition(launch_as_standalone_node),
     )
+
 
     return launch.LaunchDescription(
         [
             robot_ip,
             use_gripper,
             use_fake_hardware,
+            joint_state_publisher,
+            ros2_control_node,
             servo_node,
             container,
         ]
