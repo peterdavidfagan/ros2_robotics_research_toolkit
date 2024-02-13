@@ -47,53 +47,6 @@ def generate_launch_description():
             .trajectory_execution("config/moveit_controllers.yaml")
             .to_moveit_configs()
             )
-    
-
-    # if we are using fake hardware adjust joint state topic
-    if not LaunchConfiguration("use_fake_hardware"):
-        joint_state_topic = "franka/joint_states"
-        ros2_controller_config = "ros2_controllers.yaml"
-    else:
-        joint_state_topic = "/mujoco_joint_states"
-        ros2_controller_config = "ros2_controllers_mujoco.yaml"
-
-    joint_state_publisher = Node(
-        package='joint_state_publisher',
-        executable='joint_state_publisher',
-        name='joint_state_publisher',
-        output='screen',
-        parameters=[{'source_list': [joint_state_topic]}],
-    )
-
-    ros2_controllers_path = os.path.join(
-        get_package_share_directory("franka_robotiq_moveit_config"),
-        "config",
-        ros2_controller_config,
-    )
-    
-    ros2_control_node = Node(
-        package="controller_manager",
-        executable="ros2_control_node",
-        parameters=[
-            moveit_config.robot_description,
-            ros2_controllers_path
-            ],
-        remappings=[('joint_states', joint_state_topic)],
-        output="both",
-    )
-
-    load_controllers = []
-    for controller in [
-        'panda_jtc_controller',
-        'joint_state_broadcaster', 
-    ]:
-        load_controllers += [
-            ExecuteProcess(
-                cmd=["ros2 run controller_manager spawner {}".format(controller)],
-                shell=True,
-                output="screen",
-            )
-        ]
 
     # Get parameters for the Servo node
     servo_params = {
@@ -150,8 +103,6 @@ def generate_launch_description():
             robot_ip,
             use_gripper,
             use_fake_hardware,
-            joint_state_publisher,
-            ros2_control_node,
             servo_node,
             container,
         ]
