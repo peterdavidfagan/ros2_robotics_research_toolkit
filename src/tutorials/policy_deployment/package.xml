@@ -10,7 +10,9 @@
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <depend>generate_parameter_library</depend>
-  
+  <depend>ros2_dspy</depend>
+  <depend>ros2_dspy_msgs</depend>
+
   <exec_depend>rviz2</exec_depend>
   <exec_depend>xacro</exec_depend>
   <exec_depend>urdf</exec_depend>

@@ -52,6 +52,7 @@ class LanguageConditionedPolicy(Policy):
         # construct question
         QA_goal = QA.Goal()
         QA_goal.question = language_command
+        self._logger.info(f"Asking: {language_command}")
 
         # send question to llm and reset current command based on response
         self.llm_client.wait_for_server()
@@ -72,8 +73,8 @@ class LanguageConditionedPolicy(Policy):
     def reason_result_callback(self, future):
         """Callback for the reason result."""
         result = future.result().result
+        self.logger.info(f"Reasoned command: {result}")
         self.current_command = result
-        self._logger.info("Reasoned command: %s" % result)
 
     def set_servo_command_type(self, command_type):
         """Sets the servo command type."""

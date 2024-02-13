@@ -10,7 +10,7 @@ setup(
      ('share/ament_index/resource_index/packages',
              ['resource/' + package_name]),
      ('share/' + package_name, ['package.xml']),
-     ('share/' + package_name + '/launch', ['launch/policy.launch.py']),
+     ('share/' + package_name + '/launch', ['launch/policy.launch.py', 'launch/language_conditioned_policy.launch.py']),
      ('share/' + package_name + '/config', ['config/policy.yaml']),
    ],
  install_requires=['setuptools'],
@@ -22,7 +22,8 @@ setup(
  tests_require=['pytest'],
  entry_points={
      'console_scripts': [
-             'policy_deployment = panda_policy_deployment_demos.single_image_pose_policy:main'
+             'policy_deployment = panda_policy_deployment_demos.single_image_pose_policy:main',
+             'language_conditioned_policy = panda_policy_deployment_demos.language_conditioned_policy:main'
      ],
    },
 )
