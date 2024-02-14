@@ -9,7 +9,7 @@ from launch import LaunchDescription
 from launch.launch_description_sources import load_python_launch_file_as_module
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node, SetParameter
-from launch.actions import ExecuteProcess
+from launch.actions import DeclareLaunchArgument, ExecuteProcess
 from ament_index_python.packages import get_package_share_directory
 from moveit_configs_utils import MoveItConfigsBuilder
 
@@ -26,14 +26,14 @@ def generate_launch_description():
     # declare parameter for using gripper
     use_gripper = DeclareLaunchArgument(
         "use_gripper",
-        default_value="false",
+        default_value="true",
         description="Use gripper",
     )
     
     # declare parameter for using fake controller
     use_fake_hardware = DeclareLaunchArgument(
         "use_fake_hardware",
-        default_value="false",
+        default_value="true",
         description="Use fake hardware",
     )
 
@@ -82,6 +82,9 @@ def generate_launch_description():
 
     return LaunchDescription(
         [
+            robot_ip,
+            use_gripper,
+            use_fake_hardware,
             static_tf,
             robot_state_publisher,
         ]

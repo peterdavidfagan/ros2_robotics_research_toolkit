@@ -34,7 +34,7 @@ def generate_launch_description():
     # declare parameter for using fake controller
     use_fake_hardware = DeclareLaunchArgument(
         "use_fake_hardware",
-        default_value="false",
+        default_value="true",
         description="Use fake hardware",
     )
 
@@ -50,10 +50,10 @@ def generate_launch_description():
     #        output="screen",
     #        )
     
-    open_foxglove_studio = ExecuteProcess(
-            cmd=["xdg-open", "http://localhost:8080"],
-            output="screen",
-            )
+    #open_foxglove_studio = ExecuteProcess(
+    #        cmd=["xdg-open", "http://localhost:8080"],
+    #        output="screen",
+    #        )
 
     start_mujoco_sim = ExecuteProcess(
             cmd=["ros2", "launch", "mujoco_ros_sim", "mjsim.launch.py"],
