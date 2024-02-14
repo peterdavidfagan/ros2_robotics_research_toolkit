@@ -72,7 +72,6 @@ def generate_launch_description():
         output="screen",
         )
 
-    notebook_dir = get_package_share_directory("panda_motion_planning_demos") + "/notebooks"
     start_notebook = ExecuteProcess(
             cmd=["jupyter", "notebook", f"--notebook-dir='{NOTEBOOK_DIR}'"],
             output="screen",

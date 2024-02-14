@@ -18,8 +18,63 @@ from moveit_configs_utils import MoveItConfigsBuilder
 from ament_index_python.packages import get_package_share_directory
 
 import numpy as np
+from geometry_msgs.msg import Point, Quaternion
+from abc import ABC, abstractmethod
 
-from trajectory import Spiral
+class Trajectory(ABC):
+
+    def __init__(self):
+        pass
+
+    @abstractmethod
+    def sample_position(self, t) -> Point:
+        """Samples a position from a trajectory."""
+        pass
+
+    @abstractmethod
+    def sample_orientation(self, t) -> Quaternion:
+        """Samples an orientation from a trajectory."""
+        pass
+
+    def sample_point(self, t):
+        """Samples waypoints from a trajectory."""
+        position = self.sample_position(t)
+        orientation = self.sample_orientation(t)
+        return position, orientation
+
+    def sample_points(self, num_points):
+        """Samples points from a trajectory."""
+        positions = []
+        orientations = []
+        for t in np.linspace(0, 1, num_points):
+            position, orientation = self.sample_point(t)
+            positions.append(position)
+            orientations.append(orientation)
+
+        return positions, orientations
+
+class Spiral(Trajectory):
+
+    def __init__(self, radius, height):
+        self.radius = radius
+        self.height = height
+
+    def sample_position(self, t):
+        p = Point()
+        p.x = np.sin(t) * self.radius + 0.3
+        p.y = np.cos(t) * self.radius
+        p.z = 0.3 + t * self.height
+        return p
+
+    def sample_orientation(self, t):
+        q = Quaternion()
+        q.x = 0.924
+        q.y = -0.382
+        q.z = 0.0
+        q.w = 0.0
+        return q
+
+
 
 class PoseTracker(Node):
     """A node for tracking multiple pose trajectories."""
@@ -32,17 +87,29 @@ class PoseTracker(Node):
         self.poses = []
 
         # initialize motion planning client
+        # set params
+        robot_ip = "192.168.106.99"
+        use_gripper = "true" 
+        use_fake_hardware = "true" 
+
         moveit_config = (
             MoveItConfigsBuilder(robot_name="panda", package_name="franka_robotiq_moveit_config")
-            .robot_description(file_path=get_package_share_directory("franka_robotiq_description") + "/urdf/robot.urdf.xacro", 
-                mappings={"robot_ip": "192.168.106.99", "robotiq_gripper": "false"})
-            .robot_description_semantic("config/panda.srdf.xacro")
+            .robot_description(file_path=get_package_share_directory("franka_robotiq_description") + "/urdf/robot.urdf.xacro",
+                mappings={
+                    "robot_ip": robot_ip,
+                    "robotiq_gripper": use_gripper,
+                    "use_fake_hardware": use_fake_hardware,
+                    })
+            .robot_description_semantic("config/panda.srdf.xacro", 
+                mappings={
+                    "robotiq_gripper": use_gripper,
+                    })
             .trajectory_execution("config/moveit_controllers.yaml")
-            .to_moveit_configs()
             .moveit_cpp(
                 file_path=get_package_share_directory("panda_motion_planning_demos")
                 + "/config/moveit_cpp.yaml"
             )
+            .to_moveit_configs()
             ).to_dict()
 
         self.robot = MoveItPy(config_dict=moveit_config)
@@ -78,7 +145,7 @@ class PoseTracker(Node):
         del_x = current_pose.position.x - pose.pose.position.x
         del_y = current_pose.position.y - pose.pose.position.y
         del_z = current_pose.position.z - pose.pose.position.z
-        if np.linalg.norm([del_x, del_y, del_z]) < 0.1:
+        if np.linalg.norm([del_x, del_y, del_z]) < 0.01:
             return True
 
     def set_servo_command_type(self, command_type):
@@ -116,7 +183,7 @@ class PoseTracker(Node):
         rclpy.spin_until_future_complete(self, future)
         self.logger.info("servo started")
 
-    def generate_waypoints(self, trajectory, num_points = 100):
+    def generate_waypoints(self, trajectory, num_points = 50):
         """Generates waypoints from a trajectory."""
 
         # trajectory generator
@@ -165,13 +232,10 @@ class PoseTracker(Node):
 if __name__=="__main__":
     rclpy.init()
     node = PoseTracker()
-    
-    # return to start position
-    node.return_to_start()
 
-    # set servo command type to pose                                                                                     
+    # set servo command type to pose
     node.set_servo_command_type(2)
-    spiral = Spiral(radius=0.1, height=0.1)
+    spiral = Spiral(radius=0.2, height=0.4)
     
     # track pose targets
     node.generate_waypoints(spiral)
