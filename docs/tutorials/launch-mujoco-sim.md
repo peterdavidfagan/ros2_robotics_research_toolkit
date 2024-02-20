@@ -2,7 +2,6 @@
 layout: default
 title: Launch MuJoCo ROS Simulation
 parent: Tutorials
-has_children: false
 nav_order: 4
 ---
 

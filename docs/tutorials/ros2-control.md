@@ -2,7 +2,6 @@
 layout: default
 title: Starting ROS 2 Controllers
 parent: Tutorials
-has_children: false
 nav_order: 1
 ---
 
