@@ -1,7 +1,7 @@
 ---
 layout: default
-title: Toolkit Guides
+title: Tutorials
 has_children: true
 nav_order: 3
-permalink: /docs/toolkit_guides
+permalink: /docs/tutorials
 ---
