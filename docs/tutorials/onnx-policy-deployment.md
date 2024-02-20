@@ -4,7 +4,6 @@ title: Deploying Policies with ONNX
 parent: Tutorials
 has_children: false
 nav_order: 3
-permalink: /docs/toolkit_guides
 ---
 
 <details open markdown="block">
