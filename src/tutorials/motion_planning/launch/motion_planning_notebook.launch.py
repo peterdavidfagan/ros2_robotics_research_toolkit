@@ -58,7 +58,7 @@ def generate_launch_description():
     #        )
 
     start_mujoco_sim = ExecuteProcess(
-            cmd=["ros2", "launch", "mujoco_ros_sim", "mjsim.launch.py"],
+            cmd=["ros2", "launch", "mujoco_ros", "mjsim.launch.py"],
             output="screen",
             )
 
