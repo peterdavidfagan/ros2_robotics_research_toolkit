@@ -94,7 +94,7 @@ def generate_launch_description():
     moveit_py_node = Node(
         name="moveit_py",
         package="panda_motion_planning_demos",
-        executable="motion_planning.py",
+        executable="scripted_pick_place.py",
         output="both",
         arguments=[
             "--ros-args",

@@ -6,6 +6,7 @@ find_package(ament_cmake REQUIRED)
 install(PROGRAMS
   src/motion_planning.py
   src/motion_planning_planning_scene.py
+  src/scripted_pick_place.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
