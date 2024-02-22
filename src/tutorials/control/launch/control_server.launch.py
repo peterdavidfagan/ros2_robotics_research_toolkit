@@ -63,18 +63,18 @@ def generate_launch_description():
         parameters=[{'source_list': [joint_state_topic]}],
     )
 
-    ros2_controllers_path = os.path.join(
+    ros2_controller_path = os.path.join(
         get_package_share_directory("franka_robotiq_moveit_config"),
         "config",
         ros2_controller_config,
     )
-    
+
     ros2_control_node = Node(
         package="controller_manager",
         executable="ros2_control_node",
         parameters=[
             moveit_config.robot_description,
-            ros2_controllers_path
+            ros2_controller_path,
             ],
         remappings=[('joint_states', joint_state_topic)],
         output="both",
@@ -82,8 +82,9 @@ def generate_launch_description():
 
     load_controllers = []
     for controller in [
+        'joint_state_broadcaster',
         'panda_jtc_controller',
-        'joint_state_broadcaster', 
+        'robotiq_position_controller',
     ]:
         load_controllers += [
             ExecuteProcess(
