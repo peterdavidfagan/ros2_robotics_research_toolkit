@@ -25,13 +25,6 @@ from geometry_msgs.msg import PoseStamped
 from control_msgs.action import GripperCommand
 
 
-# known poses of blocks for pick and place
-#[0.4251066  0.0881298  0.42355322]
-#[ 0.59047847 -0.07463033  0.42363389]
-#[ 0.33900857 -0.19225322  0.42438295]
-
-
-
 # define gripper action client
 class GripperClient(Node):
 
@@ -43,21 +36,19 @@ class GripperClient(Node):
             "/robotiq_position_controller/gripper_cmd"
         )
     
-    def send_goal(self, goal):
-        self.gripper_action_client.wait_for_server()
-        self.gripper_action_client.send_goal_async(goal)
-
     def close_gripper(self):
         goal = GripperCommand.Goal()
-        goal.command.position = 0.5
-        goal.command.max_effort = 1.0
-        self.send_goal(goal)
+        goal.command.position = 0.8
+        goal.command.max_effort = 3.0
+        self.gripper_action_client.wait_for_server()
+        return self.gripper_action_client.send_goal_async(goal)
 
     def open_gripper(self):
         goal = GripperCommand.Goal()
         goal.command.position = 0.0
-        goal.command.max_effort = 1.0
-        self.send_goal(goal)
+        goal.command.max_effort = 3.0
+        self.gripper_action_client.wait_for_server()
+        return self.gripper_action_client.send_goal_async(goal)
 
 
 def plan_and_execute(
@@ -141,7 +132,7 @@ def pick_and_place_block(
     # close gripper
     logger.info("Closing gripper")
     gripper_client.close_gripper()
-    time.sleep(1.5)
+    time.sleep(2.0)
     
     # raise arm
     logger.info("Raising arm")
@@ -167,7 +158,7 @@ def pick_and_place_block(
     # open gripper
     logger.info("Opening gripper")
     gripper_client.open_gripper()
-    time.sleep(1.5)
+    time.sleep(2.0)
 
     # raise arm
     logger.info("Raising arm")
@@ -178,15 +169,16 @@ def pick_and_place_block(
 
 def main():
     
-    height_adjustment = 0.165
-    BLOCK1_POSE = [0.4251066, 0.0881298, 0.02355322 + height_adjustment]
-    BLOCK2_POSE = [0.59047847, -0.07463033, 0.02363389 + height_adjustment]
-    BLOCK3_POSE = [0.33900857, -0.19225322, 0.02438295 + height_adjustment]
+    # for this demo example we will hard code the poses
+    height_adjustment = 0.175
+    BLOCK1_POSE = [0.4251066, 0.0881298, height_adjustment]
+    BLOCK2_POSE = [0.59047847, -0.07463033, height_adjustment]
+    BLOCK3_POSE = [0.33900857, -0.19225322, height_adjustment]
     PLACE1_POSE = [0.5, 0.0, height_adjustment]
     PLACE2_POSE = PLACE1_POSE.copy()
-    PLACE2_POSE[-1] += 0.15
+    PLACE2_POSE[-1] += 0.08
     PLACE3_POSE = PLACE1_POSE.copy()
-    PLACE3_POSE[-1] += 0.3
+    PLACE3_POSE[-1] += 0.13
 
     rclpy.init()
     logger = get_logger("moveit_py.pose_goal")

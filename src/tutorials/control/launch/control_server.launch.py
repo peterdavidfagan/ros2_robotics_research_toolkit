@@ -82,7 +82,7 @@ def generate_launch_description():
 
     load_controllers = []
     for controller in [
-        'joint_state_broadcaster',
+        #'joint_state_broadcaster',
         'panda_jtc_controller',
         'robotiq_position_controller',
     ]:

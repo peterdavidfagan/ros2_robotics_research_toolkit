@@ -120,21 +120,7 @@ def generate_launch_description():
                     target_action=start_mujoco_sim,
                     on_start=[
                         TimerAction(
-                            period=5.0,
-                            actions=[
-                                start_foxglove_bridge,
-                                ]
-                            )
-                        ]
-                    )
-                ),
-
-            RegisterEventHandler(
-                OnProcessStart(
-                    target_action=start_foxglove_bridge,
-                    on_start=[
-                        TimerAction(
-                            period=10.0, 
+                            period=1.0, 
                             actions=[
                                 start_ros_2_controllers,
                                 start_motion_planning_prerequisites,
@@ -149,7 +135,7 @@ def generate_launch_description():
                     target_action=start_motion_planning_prerequisites,
                     on_start=[
                         TimerAction(
-                            period=10.0,
+                            period=5.0,
                             actions=[
                                 moveit_py_node,
                                 ]
