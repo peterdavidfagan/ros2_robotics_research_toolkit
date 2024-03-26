@@ -52,3 +52,6 @@
 [submodule "src/mujoco/mujoco_ros"]
 	path = src/mujoco/mujoco_ros
 	url = git@github.com:peterdavidfagan/mujoco_ros.git
+[submodule "src/data_collection/moveit2_data_collector"]
+	path = src/data_collection/moveit2_data_collector
+	url = git@github.com:peterdavidfagan/moveit2_data_collector.git
